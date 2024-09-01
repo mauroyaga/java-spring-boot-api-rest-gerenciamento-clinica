@@ -21,7 +21,11 @@ Está aplicação é uma API rest, Spring. Está sendo desenvolvido com o objeti
 ---
 
 ## Descrição
-
+Este projeto é uma API REST desenvolvida com Java e Spring Boot.
+Ele foi criado com o objetivo de estudar e aprimorar as habilidades de
+desenvolvimento back-end com Java.
+O contexto da proposta é um uma API de um sistema de gerenciamento de clinica médica.
+O objetivo é uma api que possa responder as requisições da necessárias para a aplicação.
 
 
 ---
