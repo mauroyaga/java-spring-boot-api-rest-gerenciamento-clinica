@@ -17,6 +17,7 @@ Está aplicação é uma API rest, Spring. Está sendo desenvolvido com o objeti
   - [Instruções](#instruções)
   - [Documentação](#documentação)
   - [Abordagem](#abordagem)
+        [Arquitetura](#arquitetura)
 
 ---
 
@@ -50,6 +51,22 @@ O objetivo é uma api que possa responder as requisições da necessárias para 
 ---
 
 ## Abordagem
+
+### Arquitetura
+
+br.com.mauroyagadev.api: Contém a classe principal que inicia a aplicação Spring Boot (ApiApplication.java).
+
+br.com.mauroyagadev.api.application: Este pacote contém as classes que representam a camada de aplicação.
+Esta camada coordena as operações de alto nível envolvendo várias entidades de domínio.
+
+br.com.mauroyagadev.api.domain: Este pacote contém as classes que representam a camada de domínio. Esta camada contém
+as entidades de negócio e as regras de negócio.
+
+br.com.mauroyagadev.api.adapters: Este pacote contém as classes que adaptam a interface da camada de
+ domínio para interfaces que podem ser usadas por outras partes da aplicação ou por serviços externos.
+
+br.com.mauroyagadev.api.dto: Este pacote contém as classes DTO (Data Transfer Object),
+ que são usadas para enviar e receber dados através da API.
 
 
 
