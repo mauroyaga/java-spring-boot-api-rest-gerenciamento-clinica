@@ -15,6 +15,7 @@ Está aplicação é uma API rest, Spring. Está sendo desenvolvido com o objeti
   - [Tecnologias](#tecnologias)
   - [Dependências](#dependências)
   - [Instruções](#instruções)
+        -[Banco Postgre no Docker](#banco-postgre-no-docker)
   - [Documentação](#documentação)
   - [Abordagem](#abordagem)
         [Arquitetura](#arquitetura)
@@ -54,19 +55,23 @@ O objetivo é uma api que possa responder as requisições da necessárias para 
 
 ### Arquitetura
 
-br.com.mauroyagadev.api: Contém a classe principal que inicia a aplicação Spring Boot (ApiApplication.java).
+Quando uma requisição é feita para a API, o fluxo dos dados ocorre da seguinte maneira:
 
-br.com.mauroyagadev.api.application: Este pacote contém as classes que representam a camada de aplicação.
-Esta camada coordena as operações de alto nível envolvendo várias entidades de domínio.
+- A requisição chega ao MedicoController. Este controlador tem um método cadastra
+ que é mapeado para lidar com requisições POST para o endpoint /medicos.
+- O corpo da requisição é automaticamente mapeado para um objeto DadosCadastroMedico pelo Spring,
+graças à anotação @RequestBody. Este objeto é um record que contém os dados do médico que estão sendo enviados na requisição.
+- O método cadastra então cria um novo objeto Medico usando os dados do objeto DadosCadastroMedico.
+- Durante a criação do objeto Medico, um novo objeto Endereco também é criado usando
+ os dados de endereço contidos no objeto DadosCadastroMedico.
+- O objeto Medico é então passado para o método save do MedicoRepository,
+que salva o médico no banco de dados.
+- O MedicoRepository é uma interface que estende JpaRepository,
+o que significa que ele herda uma série de métodos para trabalhar com o banco de dados, incluindo o método save. O Spring Data JPA fornece automaticamente uma implementação desta interface em tempo de execução.
+- O objeto Medico salvo é então retornado pelo método save e
+pode ser usado para qualquer processamento adicional necessário.
 
-br.com.mauroyagadev.api.domain: Este pacote contém as classes que representam a camada de domínio. Esta camada contém
-as entidades de negócio e as regras de negócio.
 
-br.com.mauroyagadev.api.adapters: Este pacote contém as classes que adaptam a interface da camada de
- domínio para interfaces que podem ser usadas por outras partes da aplicação ou por serviços externos.
-
-br.com.mauroyagadev.api.dto: Este pacote contém as classes DTO (Data Transfer Object),
- que são usadas para enviar e receber dados através da API.
-
+fluxo: requisição HTTP -> MedicoController -> DadosCadastroMedico -> Medico -> MedicoRepository -> banco de dados.
 
 

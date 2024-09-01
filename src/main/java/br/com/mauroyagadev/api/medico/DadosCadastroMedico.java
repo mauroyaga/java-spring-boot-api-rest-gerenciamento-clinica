@@ -14,5 +14,7 @@ import br.com.mauroyagadev.api.endereco.DadosEnderecoMedico;
 * A classe é imutável, ou seja, após ser criada, seus atributos não podem ser alterados.
 * */
 
-public record DadosCadastroMedico(String nome, String email, Especialidade especialidade, String crm, DadosEnderecoMedico endereco) {
+public record DadosCadastroMedico(String nome, String email,
+                                  Especialidade especialidade,
+                                  String crm, DadosEnderecoMedico endereco) {
 }
