@@ -17,6 +17,7 @@ Está aplicação é uma API rest, Spring. Está sendo desenvolvido com o objeti
   - [Instruções](#instruções)
         -[Banco Postgre no Docker](#banco-postgre-no-docker)
   - [Documentação](#documentação)
+        -[Validações](#validações)
   - [Abordagem](#abordagem)
         [Arquitetura](#arquitetura)
 
@@ -48,6 +49,9 @@ O objetivo é uma api que possa responder as requisições da necessárias para 
 
 ## Documentação
 
+### Validações
+link para a documentação das validações:
+[Validações](https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#builtinconstraints
 
 ---
 
