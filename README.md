@@ -15,12 +15,12 @@ Está aplicação é uma API rest, Spring. Está sendo desenvolvido com o objeti
   - [Tecnologias](#tecnologias)
   - [Dependências](#dependências)
   - [Instruções](#instruções)
-        -[Banco Postgre no Docker](#banco-postgre-no-docker)
-        - [Controle de versão com Flyway](#controle-de-versão-com-flyway)
+    - [Banco Postgre com Docker](#banco-postgre-com-docker)
+    - [Controle de versão com Flyway](#controle-de-versão-com-flyway)
   - [Documentação](#documentação)
-        -[Validações](#validações)
+    - [Validações](#validações)
   - [Abordagem](#abordagem)
-        [Arquitetura](#arquitetura)
+    - [Arquitetura](#arquitetura)
 
 ---
 
@@ -29,8 +29,7 @@ Este projeto é uma API REST desenvolvida com Java e Spring Boot.
 Ele foi criado com o objetivo de estudar e aprimorar as habilidades de
 desenvolvimento back-end com Java.
 O contexto da proposta é um uma API de um sistema de gerenciamento de clinica médica.
-O objetivo é uma api que possa responder as requisições da necessárias para a aplicação.
-
+O objetivo é desenvolver um MVP de uma API que possa responder as requisições minímas necessárias para a aplicação.
 
 ---
 
@@ -44,6 +43,8 @@ O objetivo é uma api que possa responder as requisições da necessárias para 
 ---
 
 ## Instruções
+
+## Banco Postgre com Docker
 
 ### Controle de versão com Flyway
 é importante sempre parar o projeto ao criar os arquivos de migrations,
@@ -85,8 +86,9 @@ create database vollmed_api;
 ## Documentação
 
 ### Validações
-link para a documentação das validações:
-[Validações](https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#builtinconstraints
+link para a documentação das validações, com o validation do Spring Boot
+
+[https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#builtinconstraints](https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#builtinconstraints)
 
 ---
 
