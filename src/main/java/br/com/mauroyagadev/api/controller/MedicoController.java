@@ -7,10 +7,11 @@ import br.com.mauroyagadev.api.medico.MedicoRepository;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 
 @RestController
@@ -30,9 +31,12 @@ public class MedicoController {
         repository.save(new Medico(dados));
 
     }
-    @GetMapping
-    public List<DadosListagemMedico> listar() {
-        return repository.findAll().stream().map(DadosListagemMedico::new).toList();
+    @GetMapping //Anotation que indica que o método deve ser executado quando houver uma requisição GET para o endpoint /medicos.
+
+    //A classe Page é uma interface do Spring Data que representa uma lista de elementos paginada.
+
+    public Page<DadosListagemMedico> listar(Pageable paginacao) {
+        return repository.findAll(paginacao).map(DadosListagemMedico::new)  ;
     }
 
 

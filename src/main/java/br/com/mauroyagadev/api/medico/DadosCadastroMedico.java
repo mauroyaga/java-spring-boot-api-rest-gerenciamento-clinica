@@ -10,30 +10,24 @@ import lombok.NoArgsConstructor;
 
 /*
 * Estre record é uma classe que representa os dados de cadastro de um médico.
-* Ela possui os seguintes atributos:
-* nome: String - nome do médico
-* email: String - email do médico
-* especialidade: Especialidade - especialidade do médico
-* crm: String - CRM do médico
-* endereco: DadosEnderecoMedico - dados de endereço do médico
-*
 * A classe é imutável, ou seja, após ser criada, seus atributos não podem ser alterados.
 * */
 
 public record DadosCadastroMedico(
 
-        @NotBlank
+        @NotBlank //Anotation do Bean Validation que indica que o atributo não pode ser nulo ou vazio.
         String nome,
         @NotBlank
-        @Email
+        @Email //Anotation do Bean Validation que indica que o atributo deve ser um e-mail válido.
         String email,
         @NotBlank
         String telefone,
         @NotNull
         Especialidade especialidade,
+        //Anotation do Bean Validation que indica que o atributo deve ter um formato específico.
         @Pattern(regexp = "\\d{4,6}")
         String crm,
         @NotNull
-        @Valid
+        @Valid //Anotation do Bean Validation que indica que o atributo deve ser validado.
         DadosEnderecoMedico endereco) {
 }
