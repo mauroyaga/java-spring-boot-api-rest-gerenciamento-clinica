@@ -10,7 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.util.UriBuilder;
+
 import org.springframework.web.util.UriComponentsBuilder;
 
 
@@ -57,5 +57,11 @@ public class MedicoController {
     }
 
 
+    @GetMapping ("/{id}")
+    public  ResponseEntity detalhar(@PathVariable Long id) {
+        var medico = repository.getReferenceById(id);
+
+        return ResponseEntity.ok(new DadosdetalhamentoMedico(medico));
+    }
 
 }
