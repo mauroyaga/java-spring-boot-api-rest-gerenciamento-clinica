@@ -84,9 +84,9 @@ Para isso, você precisara das credenciais que estão no arquivo ***application.
 ***Credênciais***
 - Host: localhost
 - Porta: 5432
-- Nome do banco de dados: api
-- Usuário: root
-- Senha: root
+- Database: gerenciamento_clinica_db
+- Username: postgres
+- Password: root
 
 ### Controle de versão com Flyway
 
@@ -150,11 +150,41 @@ create database vollmed_api;
 
 ### EndPoints
 
+**Cadastro de Médico (POST)**
+
+-rota: http://localhost:8080/medicos
+
+
+```bash
+{
+    "nome": "Maria Oliveira",
+    "email": "maria.oliveira@example.com",
+    "telefone": "987654321",
+    "especialidade": "CARDIOLOGIA",
+    "crm": "67890",
+    "endereco": {
+        "logradouro": "Avenida Paulista",
+        "bairro": "Bela Vista",
+        "cep": "87654321",
+        "cidade": "São Paulo",
+        "uf": "SP",
+        "complemento": "Sala 202",
+        "numero": "456"
+    }
+}
+
+```
+
+**Listagem de Médicos (GET)**
+
+```bash
+http://localhost:8080/medicos
+```
 #### Parametros de requisição
 
-***Paginação***
+**Paginação**
 
-***page***: Este parâmetro define o número da página que você deseja recuperar.
+**page***: Este parâmetro define o número da página que você deseja recuperar.
 A contagem de páginas começa em 0, então page=0 recuperará a primeira página,
 page=1 recuperará a segunda página, e assim por diante.
 
@@ -181,17 +211,29 @@ pelo campo nome em ordem ascendente, e sort=nome,desc ordenará em ordem descend
 
  Exemplos de parametros de paginação:
 
- A requisição a baixo retorna 1 resultado por página, da segunda página
+ 1) A requisição a baixo retorna 1 resultado por página, da segunda página.
 
 ```bash
 localhost:8080/medicos?size=1&page=1
 ```
 
- A requisição a baixo retornar a lista de médicos,
+ 2) A requisição a baixo retornar a lista de médicos,
  ordenados pelo campo nome em ordem ascendente por padrão.
 
  ```bash
  localhost:8080/medicos?sort=nome
+```
+
+3) A requisição retorna a lista de medicos com a ordenação decrescente pelo campo crm.
+
+
+```bash
+localhost:8080/medicos?sort=crm,desc
+```
+4) A requisição retorna a lista com crm decrescente com 2 elementos por página.
+
+```bash
+localhost:8080/medicos?sort=crm,desc&size=2
 ```
 
 ### Validações

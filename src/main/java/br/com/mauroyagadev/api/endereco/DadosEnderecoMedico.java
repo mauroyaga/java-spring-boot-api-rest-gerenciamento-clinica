@@ -4,12 +4,12 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 
 public record DadosEnderecoMedico(
-        @NotBlank //Anotation que indica que o atributo não pode ser nulo ou vazio.
+        @NotBlank
         String logradouro,
         @NotBlank
         String bairro,
         @NotBlank
-        @Pattern(regexp = "\\d{8}") //anotação que indica que o atributo deve seguir o padrão de 8 dígitos.
+        @Pattern(regexp = "\\d{8}")
         String cep,
         @NotBlank
         String cidade,
@@ -17,9 +17,5 @@ public record DadosEnderecoMedico(
         String uf,
         String complemento,
         String numero) {
-
-
-
-
 
 }
