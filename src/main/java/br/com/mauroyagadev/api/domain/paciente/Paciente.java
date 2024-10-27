@@ -4,6 +4,7 @@ package br.com.mauroyagadev.api.domain.paciente;
 import br.com.mauroyagadev.api.domain.endereco.Endereco;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -36,6 +37,10 @@ public class Paciente {
         this.cpf = dados.cpf();
         this.endereco = new Endereco(dados.endereco());
         this.ativo = true;
+    }
+
+    public Paciente(@NotNull Long aLong, @NotNull String s) {
+
     }
 
     public void atualizarInformacoesPaciente(@Valid DadosAtualizacaoPaciente dados) {

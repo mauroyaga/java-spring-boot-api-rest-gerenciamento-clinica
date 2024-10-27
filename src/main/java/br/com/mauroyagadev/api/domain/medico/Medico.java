@@ -4,6 +4,7 @@ package br.com.mauroyagadev.api.domain.medico;
 import br.com.mauroyagadev.api.domain.endereco.Endereco;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -42,9 +43,12 @@ public class Medico {
 
     }
 
+    public Medico(@NotNull Long aLong, @NotNull String s) {
+
+    }
 
 
-    public void atualizarInformacoesMedico(@Valid DadosAtualizacaoMedico dados) {
+    public void AtualizarInformacoesMedico(@Valid DadosAtualizacaoMedico dados) {
 
         if (dados.nome() != null) {
             this.nome = dados.nome();
@@ -57,7 +61,7 @@ public class Medico {
         }
     }
 
-    public void excluir() {
+    public void Excluir() {
         this.ativo = false;
     }
 }

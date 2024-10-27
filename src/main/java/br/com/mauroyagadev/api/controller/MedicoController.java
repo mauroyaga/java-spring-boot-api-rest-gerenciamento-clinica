@@ -41,7 +41,7 @@ public class MedicoController {
     @Transactional
     public ResponseEntity atualizar(@RequestBody @Valid DadosAtualizacaoMedico dados) {
         var medico = repository.getReferenceById(dados.id());
-        medico.atualizarInformacoesMedico(dados);
+        medico.AtualizarInformacoesMedico(dados);
         return ResponseEntity.ok(new DadosDetalhamentoMedico(medico));
     }
 
@@ -49,7 +49,7 @@ public class MedicoController {
     @Transactional
     public  ResponseEntity excluir(@PathVariable Long id) {
         var medico = repository.getReferenceById(id);
-        medico.excluir();
+        medico.Excluir();
 
         return ResponseEntity.noContent().build();
     }
