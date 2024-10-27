@@ -82,6 +82,7 @@ container com uma instância do PostgreSQL que sera inicializada com as configur
 definidas no arquivo ***docker-compose.yml***. automaticamente.
 
 ---
+
 ## Banco Postgres com Docker
 
 Com o docker devidamente instalado em seu ambiente, no terminal na raiz do projeto execute o seguinte comando:
@@ -486,6 +487,11 @@ Endpoints:
 
 ## Resumo
 
-A API fornece endpoints para gerenciar **médicos**, **pacientes** e **informações de agendamento**. Inclui autenticação usando tokens JWT e segue as melhores práticas de segurança e modularidade. Os controladores lidam com as requisições HTTP, os serviços contêm a lógica de negócios e os repositórios gerenciam as interações com o banco de dados.
+Esta Api está sendo desenvolvida com o objetivo de estudar e aprimorar as habilidades 
+de desenvolvimento back-end com Java. 
+O contexto da proposta é um uma API de um sistema de gerenciamento de clinica médica. 
+O objetivo é desenvolver um MVP de uma API que possa responder as 
+requisições minímas necessárias para a aplicação. 
+Ainda a diversas melhorias e funcionalidades a serem implementadas.
 
 
