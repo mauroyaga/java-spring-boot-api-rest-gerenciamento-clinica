@@ -1,4 +1,4 @@
-package br.com.mauroyagadev.api.medico;
+package br.com.mauroyagadev.api.domain.medico;
 
 
 public enum Especialidade {

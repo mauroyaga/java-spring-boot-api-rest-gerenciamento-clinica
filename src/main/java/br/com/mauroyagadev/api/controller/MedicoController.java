@@ -1,7 +1,6 @@
 package br.com.mauroyagadev.api.controller;
 
-import br.com.mauroyagadev.api.medico.*;
-import jakarta.persistence.Id;
+import br.com.mauroyagadev.api.domain.medico.*;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,8 +58,8 @@ public class MedicoController {
 
     @GetMapping ("/{id}")
     public  ResponseEntity detalhar(@PathVariable Long id) {
-        var medico = repository.getReferenceById(id);
 
+        var medico = repository.getReferenceById(id);
         return ResponseEntity.ok(new DadosdetalhamentoMedico(medico));
     }
 

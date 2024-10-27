@@ -1,6 +1,6 @@
-package br.com.mauroyagadev.api.medico;
+package br.com.mauroyagadev.api.domain.medico;
 
-import br.com.mauroyagadev.api.endereco.DadosEnderecoMedico;
+import br.com.mauroyagadev.api.domain.endereco.DadosEnderecoMedico;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

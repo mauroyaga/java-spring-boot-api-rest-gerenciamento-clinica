@@ -1,4 +1,4 @@
-package br.com.mauroyagadev.api.endereco;
+package br.com.mauroyagadev.api.domain.endereco;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;

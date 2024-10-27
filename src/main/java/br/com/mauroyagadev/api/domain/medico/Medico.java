@@ -1,7 +1,7 @@
-package br.com.mauroyagadev.api.medico;
+package br.com.mauroyagadev.api.domain.medico;
 
 
-import br.com.mauroyagadev.api.endereco.Endereco;
+import br.com.mauroyagadev.api.domain.endereco.Endereco;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
