@@ -1,6 +1,6 @@
 package br.com.mauroyagadev.api.domain.endereco;
 
-import br.com.mauroyagadev.api.domain.paciente.DadosCadastroPaciente;
+import br.com.mauroyagadev.api.domain.paciente.DadosAtualizacaoPaciente;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 public class Endereco {
 
     private String logradouro;
-    private  String bairro;
-    private  String cep;
+    private String bairro;
+    private String cep;
     private String numero;
     private String complemento;
     private String cidade;
@@ -43,7 +43,7 @@ public class Endereco {
 
     }
 
-    public void atualizarInformaoes(DadosEnderecoMedico dados) {
+    public void atualizarInformacoesMedico(DadosEnderecoMedico dados) {
         if (dados.logradouro() != null) {
             this.logradouro = dados.logradouro();
         }
@@ -64,4 +64,27 @@ public class Endereco {
         }
 
     }
+
+
+    public void atualizarInformacoesPaciente(DadosEnderecoPaciente dados) {
+        if (dados.logradouro() != null) {
+            this.logradouro = dados.logradouro();
+        }
+        if (dados.bairro() != null) {
+            this.bairro = dados.bairro();
+
+        }if (dados.cep() != null) {
+            this.cep = dados.cep();
+
+        }if (dados.uf() != null) {
+            this.uf = dados.uf();
+
+        }if (dados.cidade() != null) {
+            this.cidade = dados.cidade();
+
+        }if (dados.complemento() != null){
+            this.complemento = dados.complemento();
+        }
+    }
+
 }

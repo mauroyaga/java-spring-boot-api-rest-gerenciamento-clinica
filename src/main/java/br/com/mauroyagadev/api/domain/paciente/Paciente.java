@@ -2,7 +2,6 @@ package br.com.mauroyagadev.api.domain.paciente;
 
 
 import br.com.mauroyagadev.api.domain.endereco.Endereco;
-import br.com.mauroyagadev.api.domain.medico.DadosAtualizacaoMedico;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -39,7 +38,7 @@ public class Paciente {
         this.ativo = true;
     }
 
-   /* public void atualizarInformacoes(@Valid DadosAtualizacaoPaciente dados) {
+    public void atualizarInformacoesPaciente(@Valid DadosAtualizacaoPaciente dados) {
 
         if (dados.nome() != null) {
             this.nome = dados.nome();
@@ -48,13 +47,13 @@ public class Paciente {
             this.telefone = dados.telefone();
         }
         if (dados.endereco() != null) {
-            this.endereco.atualizarInformaoes(dados.endereco());
+            this.endereco.atualizarInformacoesPaciente(dados.endereco());
+
+        }if (dados.email() != null) {
+            this.email = dados.email();
         }
 
     }
 
-    public void excluir() {
-        this.ativo = false;
-    }*/
-
+    public void excluir() {this.ativo = false;}
 }

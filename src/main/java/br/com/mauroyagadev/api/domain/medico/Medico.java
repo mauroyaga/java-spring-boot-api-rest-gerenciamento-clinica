@@ -43,7 +43,8 @@ public class Medico {
     }
 
 
-    public void atualizarInformacoes(@Valid DadosAtualizacaoMedico dados) {
+
+    public void atualizarInformacoesMedico(@Valid DadosAtualizacaoMedico dados) {
 
         if (dados.nome() != null) {
             this.nome = dados.nome();
@@ -52,7 +53,7 @@ public class Medico {
             this.telefone = dados.telefone();
         }
         if (dados.endereco() != null) {
-            this.endereco.atualizarInformaoes(dados.endereco());
+            this.endereco.atualizarInformacoesMedico(dados.endereco());
         }
     }
 
