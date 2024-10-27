@@ -1,5 +1,6 @@
 package br.com.mauroyagadev.api.domain.endereco;
 
+import br.com.mauroyagadev.api.domain.paciente.DadosCadastroPaciente;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -28,6 +29,17 @@ public class Endereco {
         this.numero = dados.numero();
         this.complemento = dados.complemento();
         this.cidade = dados.cidade();
+
+    }
+
+    public Endereco(DadosEnderecoPaciente dados) {
+        this.logradouro = dados.logradouro();
+        this.bairro = dados.bairro();
+        this.cep = dados.cep();
+        this.cidade = dados.cidade();
+        this.uf = dados.uf();
+        this.complemento = dados.complemento();
+        this.numero = dados.numero();
 
     }
 

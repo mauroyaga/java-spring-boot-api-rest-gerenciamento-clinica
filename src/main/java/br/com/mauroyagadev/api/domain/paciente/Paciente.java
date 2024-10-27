@@ -1,7 +1,8 @@
-package br.com.mauroyagadev.api.domain.medico;
+package br.com.mauroyagadev.api.domain.paciente;
 
 
 import br.com.mauroyagadev.api.domain.endereco.Endereco;
+import br.com.mauroyagadev.api.domain.medico.DadosAtualizacaoMedico;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -9,41 +10,36 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
-@Table(name = "medicos")
-@Entity(name = "Medico")
+@Table(name = "pacientes")
+@Entity(name = "Paciente")
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(of = "id")
-public class Medico {
+public class Paciente {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private  long id;
+    private long id;
     private String nome;
     private String email;
     private String telefone;
-    private String crm;
-    @Enumerated(EnumType.STRING)
-    private Especialidade especialidade;
+    private String cpf;
     @Embedded
     private Endereco endereco;
-
     private Boolean ativo;
 
-    public Medico(DadosCadastroMedico dados){
-        this.ativo = true;
+
+    public Paciente(DadosCadastroPaciente dados) {
         this.nome = dados.nome();
         this.email = dados.email();
         this.telefone = dados.telefone();
-        this.crm = dados.crm();
+        this.cpf = dados.cpf();
         this.endereco = new Endereco(dados.endereco());
-        this.especialidade = dados.especialidade();
-
+        this.ativo = true;
     }
 
-
-    public void atualizarInformacoes(@Valid DadosAtualizacaoMedico dados) {
+   /* public void atualizarInformacoes(@Valid DadosAtualizacaoPaciente dados) {
 
         if (dados.nome() != null) {
             this.nome = dados.nome();
@@ -54,10 +50,11 @@ public class Medico {
         if (dados.endereco() != null) {
             this.endereco.atualizarInformaoes(dados.endereco());
         }
+
     }
 
     public void excluir() {
         this.ativo = false;
-    }
-}
+    }*/
 
+}
