@@ -9,19 +9,24 @@ Está aplicação é uma API Rest com Java e Spring Boot. Está sendo desenvolvi
 
 ## Sumário
 
-- [Projeto API Rest com Java Spring Boot](#projeto-api-rest-com-java-spring-boot)
-  - [Sumário](#sumário)
-  - [Descrição](#descrição)
-  - [Tecnologias](#tecnologias)
-  - [Dependências](#dependências)
-  - [Instruções](#instruções)
-    - [Banco Postgre com Docker](#banco-postgre-com-docker)
+## Sumário
+
+- [Descrição](#descrição)
+- [Tecnologias](#tecnologias)
+- [Dependências](#dependências)
+- [Instruções](#instruções)
+    - [Banco PostgreSQL com Docker](#banco-postgres-com-docker)
     - [Controle de versão com Flyway](#controle-de-versão-com-flyway)
-  - [Documentação](#documentação)
-    - [EndPoints](#endpoints)
+- [Documentação](#documentação)
+    - [Endpoints](#endpoints)
+    - [Parâmetros de Requisições](#parâmetros-de-requisição)
     - [Validações](#validações)
-  - [Abordagem](#abordagem)
-    - [Arquitetura](#arquitetura)
+- [Descrição da API](#descrição-da-api)
+    - [Entidades](#entidades)
+    - [Controladores](#controladores)
+    - [Repositórios](#repositórios)
+    - [Objetos de Transferência de Dados (DTOs)](#objetos-de-transferência-de-dados-dtos)
+- [Resumo](#resumo)
 
 ---
 
@@ -35,39 +40,56 @@ O objetivo é desenvolver um MVP de uma API que possa responder as requisições
 ---
 
 ## Tecnologias
-- Java
-- Spring Boot
-- Postgre
+- Java v23
+- Spring 
+- Spring Boot v3.3.3
+- Postgres lts
 - Docker
+
 
 ---
 
 ## Dependências
 
-- Spring Web
-- Spring Data JPA
-- Spring Boot DevTools
-- Lombok
-- Spring Test
-- Postgres Driver
-- Flyway
-- Jakarta Bean Validation
+- org.springframework.boot:spring-boot-starter-web
+- org.springframework.boot:spring-boot-devtools
+- org.projectlombok:lombok:1.18.34
+- org.springframework.boot:spring-boot-starter-test
+- org.springframework.boot:spring-boot-starter-data-jpa
+- org.springframework.boot:spring-boot-starter-validation
+- org.flywaydb:flyway-core
+- org.flywaydb:flyway-database-postgresql
+- org.postgresql:postgresql
+- org.springframework.boot:spring-boot-starter-security
+- org.springframework.security:spring-security-test
+- com.auth0:java-jwt:4.4.0
 
 ---
 
 ## Instruções
 
-## Banco Postgre com Docker
+Para iniciar a aplicação da sua API de teste, siga os passos abaixo:
 
-
-Com o docker devidamente instalado em seu ambiente, no terminal, execute o seguinte comando
-para iniciar uma instância do PostgreSQL:
+### 1. Clone o repositório
+Primeiro, clone o repositório da aplicação para o seu ambiente local.
 
 ```bash
-  docker run --name postgres -e POSTGRES_PASSWORD=root -p 5432:5432 -d postgres
+git clone https://github.com/mauroyaga/java-spring-boot-api-rest-gerenciamento-clinica.git
 ```
-Se tudo ocorrer bem, você verá uma mensagem informando que o container foi criado com sucesso.
-Para verificar se o container está rodando, execute o seguinte comando:
+
+Para testar esta a bordagem do banco de dados, você pode usar o Docker para criar um 
+container com uma instância do PostgreSQL que sera inicializada com as configurações
+definidas no arquivo ***docker-compose.yml***. automaticamente.
+
+---
+## Banco Postgres com Docker
+
+Com o docker devidamente instalado em seu ambiente, no terminal na raiz do projeto execute o seguinte comando:
+
+```bash
+  docker-compose up -d
+```
+Através do arquivo ***docker-compose.yml***, o docker irá criar um container com uma instância do PostgreSQL.
 
 ```bash
   docker ps
@@ -88,7 +110,13 @@ Para isso, você precisara das credenciais que estão no arquivo ***application.
 - Username: postgres
 - Password: root
 
-### Controle de versão com Flyway
+Com a imagem do Docker do PostgreSQL rodando, você pode iniciar a aplicação Spring Boot.
+Com a aplicação rodando, o Flyway irá criar as tabelas no banco de dados automaticamente.
+Agora você pode testar a API com o Postman ou o Insomnia, para consumir os endpoints.
+
+---
+
+## Controle de versão com Flyway
 
 Flyway é uma ferramenta de migração de banco de dados que ajuda a gerenciar e aplicar alterações
 no esquema do banco de dados. Ele rastreia o histórico de alterações do esquema do banco de dados
@@ -139,20 +167,29 @@ e com isso o problema vai persistir, pois o flyway não vai apagar as tabelas/co
 criadas em migrations que falharam. Nesse caso você pode apagar o banco de dados e criá-lo novamente:
 
 ```bash
-drop database vollmed_api;
-create database vollmed_api;
+drop database gerenciamento_clinica_db;
+create gerenciamento_clinica_db;
 ```
 
 ---
 
-
 ## Documentação
 
 ### EndPoints
+Todas as Rotas: 
+
+- http://localhost:8080/medicos
+
+- http://localhost:8080/medicos
+
+- http://localhost:8080/pacientes
+
+- http://localhost:8080/agendas
+
 
 **Cadastro de Médico (POST)**
 
--rota: http://localhost:8080/medicos
+- rota: http://localhost:8080/medicos
 
 
 ```bash
@@ -177,9 +214,30 @@ create database vollmed_api;
 
 **Listagem de Médicos (GET)**
 
+Para listar todos os médicos, basta acessar a rota abaixo:
+
 ```bash
 http://localhost:8080/medicos
 ```
+
+**Atualização de Médico (PUT)**
+
+Este é um exemplo de requisição para atualizar as informações de um médico.
+do post anterior, caso o banco não esteja populado.
+
+```bash
+{
+    "id": 1,
+	"nome" : "Maria Oliveira Silva"
+}
+```
+**Deleção de Médico (DELETE)**
+
+- Forneça o id do médico que deseja deletar nofinal da rota.
+```bash
+http://localhost:8080/medicos/1
+```
+
 #### Parametros de requisição
 
 **Paginação**
@@ -236,34 +294,198 @@ localhost:8080/medicos?sort=crm,desc
 localhost:8080/medicos?sort=crm,desc&size=2
 ```
 
+---
+
 ### Validações
+
+A classe `SecurityConfiguration` é uma configuração de segurança para a aplicação Spring Boot. 
+Aqui está uma explicação detalhada do que foi feito:
+
+1. **Anotações**:
+    - `@Configuration`: Indica que a classe é uma fonte de definições de beans para o contexto da aplicação.
+    - `@EnableWebSecurity`: Habilita a segurança web no projeto Spring.
+   
+
+2. **Método `securityFilterChain`**:
+    - Define um bean do tipo `SecurityFilterChain` que configura a segurança HTTP.
+    - Desabilita a proteção CSRF (Cross-Site Request Forgery) usando `http.csrf(AbstractHttpConfigurer::disable)`.
+    - Configura a política de criação de sessão como `STATELESS`, indicando que a 
+    - aplicação não deve manter estado de sessão entre as requisições.
+   
+
+3. **Método `authenticationManager`**:
+    - Define um bean do tipo `AuthenticationManager`.
+    - Obtém o `AuthenticationManager` a partir da configuração de autenticação
+    - fornecida pelo Spring (`AuthenticationConfiguration`).
+
+
+4. **Método `passwordEncoder`**:
+    - Define um bean do tipo `PasswordEncoder`.
+    - Retorna uma instância de `BCryptPasswordEncoder`, que é usada para criptografar senhas.
+   
+
+Essas configurações são essenciais para definir como a segurança será gerenciada na 
+aplicação, incluindo a autenticação e a codificação de senhas.
+
 link para a documentação das validações, com o validation do Spring Boot
 
 [https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#builtinconstraints](https://jakarta.ee/specifications/bean-validation/3.0/jakarta-bean-validation-spec-3.0.html#builtinconstraints)
 
 ---
 
-## Abordagem
+## Descrição da API
 
-### Arquitetura
+A API é desenvolvida usando Spring Boot e segue uma arquitetura modular para gerenciar diferentes entidades como `Medico`, `Paciente` e `Agenda`. Abaixo está uma descrição detalhada da estrutura e funcionalidade da API:
 
-Quando uma requisição é feita para a API, o fluxo dos dados ocorre da seguinte maneira:
+### Entidades
 
-- A requisição chega ao MedicoController. Este controlador tem um método cadastra
- que é mapeado para lidar com requisições POST para o endpoint /medicos.
-- O corpo da requisição é automaticamente mapeado para um objeto DadosCadastroMedico pelo Spring,
-graças à anotação @RequestBody. Este objeto é um record que contém os dados do médico que estão sendo enviados na requisição.
-- O método cadastra então cria um novo objeto Medico usando os dados do objeto DadosCadastroMedico.
-- Durante a criação do objeto Medico, um novo objeto Endereco também é criado usando
- os dados de endereço contidos no objeto DadosCadastroMedico.
-- O objeto Medico é então passado para o método save do MedicoRepository,
-que salva o médico no banco de dados.
-- O MedicoRepository é uma interface que estende JpaRepository,
-o que significa que ele herda uma série de métodos para trabalhar com o banco de dados, incluindo o método save. O Spring Data JPA fornece automaticamente uma implementação desta interface em tempo de execução.
-- O objeto Medico salvo é então retornado pelo método save e
-pode ser usado para qualquer processamento adicional necessário.
+1. **Medico**:
+    - Representa um médico no sistema.
+    - Gerenciado pelo `MedicoController`.
 
+2. **Paciente**:
+    - Representa um paciente no sistema.
+    - Gerenciado pelo `PacienteController`.
 
-fluxo: requisição HTTP -> MedicoController -> DadosCadastroMedico -> Medico -> MedicoRepository -> banco de dados.
+3. **Agenda**:
+    - Representa informações de agendamento.
+    - Gerenciado pelo `AgendaController`.
+
+### Controladores
+
+1. **MedicoController**:
+    - **Endpoints**:
+        - `POST /medicos`: Registra um novo médico.
+        - `GET /medicos`: Lista todos os médicos ativos com paginação.
+        - `PUT /medicos`: Atualiza informações do médico.
+        - `DELETE /medicos/{id}`: Exclui um médico pelo ID.
+        - `GET /medicos/{id}`: Recupera informações detalhadas de um médico pelo ID.
+
+2. **PacienteController**:
+    - **Endpoints**:
+        - `POST /pacientes`: Registra um novo paciente.
+        - `GET /pacientes`: Lista todos os pacientes ativos com paginação.
+        - `PUT /pacientes`: Atualiza informações do paciente.
+        - `DELETE /pacientes/{id}`: Exclui um paciente pelo ID.
+        - `GET /pacientes/{id}`: Recupera informações detalhadas de um paciente pelo ID.
+
+3. **AgendaController**:
+    - **Endpoints**:
+        - `GET /agenda`: Lista todas as informações de agendamento com paginação.
+        - `PUT /agenda`: Atualiza informações de agendamento.
+        - `DELETE /agenda/{id}`: Exclui informações de agendamento pelo ID.
+
+4. **AutenticacaoController**:
+    - **Endpoints**:
+        - `POST /login`: Autentica um usuário e retorna um token JWT.
+
+### Segurança
+
+- **SecurityConfiguration**:
+    - Configura as definições de segurança da API.
+    - Desabilita a proteção CSRF.
+    - Define a gestão de sessão como stateless.
+    - Configura a codificação de senha usando `BCryptPasswordEncoder`.
+
+### Repositórios
+
+- **MedicoRepository**: Gerencia operações de banco de dados para entidades `Medico`.
+- **PacienteRepository**: Gerencia operações de banco de dados para entidades `Paciente`.
+- **AgendaRepository**: Gerencia operações de banco de dados para entidades `Agenda`.
+
+### Objetos de Transferência de Dados (DTOs)
+
+- **DadosCadastroMedico**: Dados para registrar um novo médico.
+- **DadosListagemMedico**: Dados para listar médicos.
+- **DadosDetalhamentoMedico**: Dados detalhados de um médico.
+- **DadosAtualizacaoMedico**: Dados para atualizar um médico.
+- **DadosCadastroPaciente**: Dados para registrar um novo paciente.
+- **DadosListagemPaciente**: Dados para listar pacientes.
+- **DadosDetalhamentoPaciente**: Dados detalhados de um paciente.
+- **DadosAtualizacaoPaciente**: Dados para atualizar um paciente.
+- **DadosAutenticacao**: Dados para autenticação de usuário.
+- **Dadostoken**: Dados para o token JWT.
+
+### Resumo
+# Descrição da API
+
+A API é desenvolvida usando **Spring Boot** e segue uma arquitetura modular para gerenciar diferentes entidades como **Medico**, **Paciente** e **Agenda**. Abaixo está uma descrição detalhada da estrutura e funcionalidade da API.
+
+## Entidades
+
+- **Medico**  
+  Representa um médico no sistema.  
+  Gerenciado pelo `MedicoController`.
+
+- **Paciente**  
+  Representa um paciente no sistema.  
+  Gerenciado pelo `PacienteController`.
+
+- **Agenda**  
+  Representa informações de agendamento.  
+  Gerenciado pelo `AgendaController`.
+
+## Controladores
+
+### MedicoController
+
+Endpoints:
+- `POST /medicos`: Registra um novo médico.
+- `GET /medicos`: Lista todos os médicos ativos com paginação.
+- `PUT /medicos`: Atualiza informações do médico.
+- `DELETE /medicos/{id}`: Exclui um médico pelo ID.
+- `GET /medicos/{id}`: Recupera informações detalhadas de um médico pelo ID.
+
+### PacienteController
+
+Endpoints:
+- `POST /pacientes`: Registra um novo paciente.
+- `GET /pacientes`: Lista todos os pacientes ativos com paginação.
+- `PUT /pacientes`: Atualiza informações do paciente.
+- `DELETE /pacientes/{id}`: Exclui um paciente pelo ID.
+- `GET /pacientes/{id}`: Recupera informações detalhadas de um paciente pelo ID.
+
+### AgendaController
+
+Endpoints:
+- `GET /agenda`: Lista todas as informações de agendamento com paginação.
+- `PUT /agenda`: Atualiza informações de agendamento.
+- `DELETE /agenda/{id}`: Exclui informações de agendamento pelo ID.
+
+### AutenticacaoController
+
+Endpoints:
+- `POST /login`: Autentica um usuário e retorna um token JWT.
+
+## Segurança
+
+**SecurityConfiguration**:
+- Configura as definições de segurança da API.
+- Desabilita a proteção CSRF.
+- Define a gestão de sessão como stateless.
+- Configura a codificação de senha usando `BCryptPasswordEncoder`.
+
+## Repositórios
+
+- **MedicoRepository**: Gerencia operações de banco de dados para entidades `Medico`.
+- **PacienteRepository**: Gerencia operações de banco de dados para entidades `Paciente`.
+- **AgendaRepository**: Gerencia operações de banco de dados para entidades `Agenda`.
+
+## Objetos de Transferência de Dados (DTOs)
+
+- **DadosCadastroMedico**: Dados para registrar um novo médico.
+- **DadosListagemMedico**: Dados para listar médicos.
+- **DadosDetalhamentoMedico**: Dados detalhados de um médico.
+- **DadosAtualizacaoMedico**: Dados para atualizar um médico.
+- **DadosCadastroPaciente**: Dados para registrar um novo paciente.
+- **DadosListagemPaciente**: Dados para listar pacientes.
+- **DadosDetalhamentoPaciente**: Dados detalhados de um paciente.
+- **DadosAtualizacaoPaciente**: Dados para atualizar um paciente.
+- **DadosAutenticacao**: Dados para autenticação de usuário.
+- **DadosToken**: Dados para o token JWT.
+
+## Resumo
+
+A API fornece endpoints para gerenciar **médicos**, **pacientes** e **informações de agendamento**. Inclui autenticação usando tokens JWT e segue as melhores práticas de segurança e modularidade. Os controladores lidam com as requisições HTTP, os serviços contêm a lógica de negócios e os repositórios gerenciam as interações com o banco de dados.
 
 
